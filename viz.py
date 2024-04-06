@@ -103,8 +103,12 @@ max_context_length = 128000
 context_story = "stone"
 folder_path_gpt4 = open(f"../results/{context_story}_gpt4_{m}_{n}.txt","r")
 folder_path_kimi = open(f"../results/{context_story}_kimi_{m}_{n}.txt","r")
-viz_data_gpt4, mean_gpt4 = get_data_ZH(folder_path_gpt4, max_context_length, m, n)
-viz_data_kimi, mean_kimi = get_data_ZH(folder_path_kimi, max_context_length, m, n)
+try:
+    viz_data_gpt4, mean_gpt4 = get_data_ZH(folder_path_gpt4, max_context_length, m, n)
+    viz_data_kimi, mean_kimi = get_data_ZH(folder_path_kimi, max_context_length, m, n)
+except:
+    viz_data_gpt4, mean_gpt4 = get_data_EN(folder_path_gpt4, max_context_length, m, n)
+    viz_data_kimi, mean_kimi = get_data_EN(folder_path_kimi, max_context_length, m, n)
 
 # Create a custom colormap. Go to https://coolors.co/ and pick cool colors
 cmap = LinearSegmentedColormap.from_list("custom_cmap", ["#184E77", "#D9ED92"])
