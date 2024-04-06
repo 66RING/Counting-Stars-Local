@@ -1,10 +1,12 @@
 # Counting-Stars-Lab
 
+Fork from [Counting-Stars](https://github.com/nick7nlp/Counting-Stars).
+
 ## Usage
 
 1. Prepare a long context like `./harry_potter_all.txt`
 2. generate test data: `python gen_test_data_en.py`
-    - rewrite the prompt as you wish
+    - You may need to change prompt to get it right
 3. run evaluation: `python test -m <model_path>`
 4. generate visualized graph
 

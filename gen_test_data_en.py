@@ -37,11 +37,11 @@ if __name__ == '__main__':
         for j in sky_size:
             indicator = 0
             sprinkle_stars_sky = sky[:j]
-            for k in range(0, j, int(j / m)):
+            for k in range(j, 0, -int(j / m)):
                 star_number = stars[indicator]
                 indicator += 1
                 single_star = f"\nThe little penguin counted {star_number} ★ \n"
-                sprinkle_stars_sky = (sprinkle_stars_sky[:k+int(j / m)] + single_star + sprinkle_stars_sky[k + int(j / m):])
+                sprinkle_stars_sky = (sprinkle_stars_sky[:k] + single_star + sprinkle_stars_sky[k:])
                 if indicator == m:
                     print(f"> Total stars count {indicator}")
                     break
