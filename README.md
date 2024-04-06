@@ -1,4 +1,4 @@
-# Counting-Stars-Lab
+# Counting-Stars-Local
 
 Fork from [Counting-Stars](https://github.com/nick7nlp/Counting-Stars).
 
