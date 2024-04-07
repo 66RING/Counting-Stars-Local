@@ -9,6 +9,7 @@ Fork from [Counting-Stars](https://github.com/nick7nlp/Counting-Stars).
     - You may need to change prompt to get it right
 3. run evaluation: `python test -m <model_path>`
 4. insert result label into json file like: `"answer": "{\"little_penguin\": [1, 2, 3, 4]}",`
+    - three field was required in json file: `answer`, `sky_size`, `reference_counting_results`
 5. generate visualized graph
 
 ## Tips
