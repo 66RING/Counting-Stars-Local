@@ -11,6 +11,11 @@ Fork from [Counting-Stars](https://github.com/nick7nlp/Counting-Stars).
 4. insert result label into json file like: `"answer": "{\"little_penguin\": [1, 2, 3, 4]}",`
 5. generate visualized graph
 
+## Tips
+
+Small model may not return the right answer like: `[1, 2, 3, 4]`. The `viz_multi_page.py` script will extract every number in the "answer" filed and reader each graph a single page in the pdf file.
+
+
 ## Terms
 
 - M: How many stars
