@@ -22,13 +22,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--model", type=str, default="meta/Llama-2-7b-chat-hf")
     parser.add_argument("--llm", type=bool, default=False)
+    parser.add_argument("--stream", action="store_true")
+
     args = parser.parse_args()
 
     model_name_or_path = args.model
     llm = args.llm
 
     MAX_LENGTH = 1024*128
-    MAX_GEN_LENGTH = 1024 * 4
+    MAX_GEN_LENGTH = 256
     config = AutoConfig.from_pretrained(model_name_or_path)
 
     if llm:
@@ -60,16 +62,21 @@ def main():
                 max_length=MAX_LENGTH,
                 padding=False)
 
-            streamer = TextStreamer(tokenizer)
+            if args.stream:
+                streamer = TextStreamer(tokenizer)
+            else:
+                streamer = None
+
+            input_tokens = input_tokens['input_ids'].cuda()
             generation_output = model.generate(
-                input_tokens['input_ids'].cuda(), 
+                input_tokens,
                 max_new_tokens=MAX_GEN_LENGTH,
                 streamer=streamer,
                 use_cache=True,
                 return_dict_in_generate=True)
 
+            output = tokenizer.decode(generation_output.sequences[:,input_tokens.shape[1]:][0])
 
-            output = tokenizer.decode(generation_output.sequences[0])
             print(">>>")
             print(output)
             print("<<<")
