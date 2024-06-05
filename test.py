@@ -18,6 +18,13 @@ def question_iterator(filename):
             if question:
                 yield question
 
+def get_reference_counting_results(filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            data = json.loads(line)
+            ref_result = data.get('reference_counting_results')
+            return ref_result
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--model", type=str, default="meta/Llama-2-7b-chat-hf")
@@ -53,7 +60,9 @@ def main():
 
     version = [[16, 32], [32, 32], [64, 32], [32, 16]]
     filenames = [f"Counting_Stars_{m}_{n}.jsonl" for m, n in version]
+    outfile = "counting_stars_report.json"
     for filename in filenames:
+        ref_result = get_reference_counting_results(filename)
         for input_text in question_iterator(filename):
             input_tokens = tokenizer(input_text,
                 return_tensors="pt",
@@ -68,6 +77,7 @@ def main():
                 streamer = None
 
             input_tokens = input_tokens['input_ids'].cuda()
+            sky_size = input_tokens.shape[1]
             generation_output = model.generate(
                 input_tokens,
                 max_new_tokens=MAX_GEN_LENGTH,
@@ -80,6 +90,10 @@ def main():
             print(">>>")
             print(output)
             print("<<<")
+
+            with open(outfile, "a", encoding="utf-8") as f:
+                json.dump({"sky_size": sky_size, "answers": output, "reference_counting_results": ref_result}, f, ensure_ascii=False)
+                f.write('\n')
 
 
 
